@@ -15,18 +15,18 @@ import java.util.List;
  * Created by junyoung on 2016. 4. 22..
  */
 @RestController
-public class TicketController {
+public class UserController {
 
     @Autowired
-    private TicketRepository ticketDao;
+    private TicketRepository ticketRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(TicketController.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @RequestMapping("/")
+    @RequestMapping("/user")
     @ResponseBody
     public List<Ticket> findAll() {
         try {
-            return ticketDao.findAll();
+            return ticketRepository.findAll();
         } catch (Exception ex) {
             logger.error("unexpected error : " + ex.getMessage());
         }

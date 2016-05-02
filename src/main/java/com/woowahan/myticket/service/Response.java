@@ -5,12 +5,25 @@ package com.woowahan.myticket.service;
  */
 public class Response {
     private String status;
+    private String error;
+    private int code;
+    private Object result;
 
     public void ok() {
-        status = "500";
+        status = "OK";
+        code = 500;
+        error = null;
+        result = null;
     }
 
-    public String getStatus() {
-        return status;
+    public void setResult(Object result) {
+        this.result = result;
+    }
+
+    public void error(String error) {
+        this.status = "ServerError";
+        this.code = 400;
+        this.error = error;
+        this.result = null;
     }
 }

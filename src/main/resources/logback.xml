@@ -5,8 +5,8 @@
             <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
         </layout>
     </appender>
-    <logger name="com.woowahan.myticket" level="TRACE"/>
-    <root level="debug">
+    <logger name="com.woowahan.myticket" level="DEBUG"/>
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

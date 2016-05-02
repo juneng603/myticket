@@ -17,9 +17,10 @@ public class Ticket {
     @Column(name="id")
     public int id;
 
-    @Column(name="type")
+    @Column(name = "type")
     @NotNull
-    public String type;
+    @Enumerated(EnumType.STRING)
+    public TicketType type;
 
     @Column(name="description")
     public String description;
@@ -32,8 +33,11 @@ public class Ticket {
     @Temporal(TemporalType.DATE)
     public Date closedDate;
 
-    @Column(name="amount")
-    public int amount;
+    @Column(name="reserved_num")
+    public int reserved_num;
+
+    @Column(name="sold_num")
+    public int sold_num;
 
     @Override
     public String toString() {

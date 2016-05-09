@@ -1,14 +1,13 @@
 package com.woowahan.myticket.service;
 
-import com.woowahan.myticket.entity.Ticket;
-import com.woowahan.myticket.repository.TicketRepository;
+import com.woowahan.myticket.entity.Perform;
+import com.woowahan.myticket.entity.User;
+import com.woowahan.myticket.repository.PerformRepository;
 import com.woowahan.myticket.repository.UserRepository;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,36 +17,57 @@ import java.util.List;
 public class AdminService {
 
     @Autowired
-    private TicketRepository ticketRepository;
+    private PerformRepository performRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-
-    public Response registerNewTicket(Ticket ticket) {
+    public Response registerNewPerform(Perform perform) {
         Response response = new Response();
 
         try {
-            ticketRepository.save(ticket);
+            Perform ret = performRepository.save(perform);
+            response.setResult(ret);
         } catch (Exception ex) {
             response.error(ex.getMessage());
             return response;
         }
 
         response.ok();
-        response.setResult(ticket);
+
+        return response;
+    }
+
+    public Response registerNewUser(User userObj) {
+        Response response = new Response();
+
+        try {
+            User ret = userRepository.save(userObj);
+            response.setResult(ret);
+        } catch (Exception ex) {
+            response.error(ex.getMessage());
+        }
 
         return response;
     }
 
     class Sales {
-        private int ticketId;
-        private int reserved_num;
+        private int performId;
+        private int occupied_num;
         private int sold_num;
         private double percentage;
+        public String name;
 
-        public void setReserved_num(int reserved_num) {
-            this.reserved_num = reserved_num;
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setOccupied_num(int occupied_num) {
+            this.occupied_num = occupied_num;
         }
 
         public void setSold_num(int sold_num) {
@@ -55,31 +75,38 @@ public class AdminService {
         }
 
         private void setPercentage() {
-            percentage = ((double)sold_num / reserved_num) * 100;
+            percentage = ((double)sold_num / occupied_num) * 100;
         }
 
         private double getPercentage() {
             return percentage;
         }
 
-        public void setTicketId(int ticketId) {
-            this.ticketId = ticketId;
+        public void setPerformId(int performId) {
+            this.performId = performId;
         }
 
-        public int getTicketId() {
-            return ticketId;
+        public int getPerformId() {
+            return performId;
         }
     }
 
-    public Response getTicketSales(Integer ticketId) {
+    public Response getPerformSales(Integer performId) {
         Response response = new Response();
-        List<Ticket> tickets = new ArrayList<>();
+        List<Perform> performs = new ArrayList<>();
         try {
-            if (ticketId == null) {
-                tickets = ticketRepository.findAll();
+            if (performId == null) {
+                performs = performRepository.findAll();
             } else {
-                Ticket ticket = ticketRepository.findOne(ticketId);
-                tickets.add(ticket);
+                Perform perform = performRepository.findOne(performId);
+
+                if (perform == null) {
+                    response.ok();
+                    response.setResult(new ArrayList<>());
+                    return response;
+                }
+
+                performs.add(perform);
             }
         } catch (Exception ex) {
             response.error(ex.getMessage());
@@ -87,10 +114,11 @@ public class AdminService {
         }
 
         List<Sales> sales = new ArrayList<>();
-        for (Ticket ticket: tickets) {
+        for (Perform ticket: performs) {
             Sales sale = new Sales();
-            sale.ticketId = ticket.id;
-            sale.reserved_num = ticket.reserved_num;
+            sale.name = ticket.name;
+            sale.performId = ticket.id;
+            sale.occupied_num = ticket.occupied_num;
             sale.sold_num = ticket.sold_num;
             sale.setPercentage();
 

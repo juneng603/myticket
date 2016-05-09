@@ -9,18 +9,22 @@ import java.util.Date;
  * Created by junyoung on 2016. 4. 22..
  */
 @Entity
-@Table(name="ticket")
-public class Ticket {
+@Table(name="perform")
+public class Perform {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     public int id;
 
+    @Column(name="name")
+    @NotNull
+    public String name;
+
     @Column(name = "type")
     @NotNull
     @Enumerated(EnumType.STRING)
-    public TicketType type;
+    public PerformType type;
 
     @Column(name="description")
     public String description;
@@ -33,14 +37,14 @@ public class Ticket {
     @Temporal(TemporalType.DATE)
     public Date closedDate;
 
-    @Column(name="reserved_num")
-    public int reserved_num;
+    @Column(name="occupied_num")
+    public int occupied_num;
 
     @Column(name="sold_num")
     public int sold_num;
 
     @Override
     public String toString() {
-        return "Ticket [id=" + id + "]";
+        return "Perform [id=" + id + "]";
     }
 }

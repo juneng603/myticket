@@ -1,6 +1,6 @@
 package com.woowahan.myticket.controller;
 
-import com.woowahan.myticket.entity.TicketType;
+import com.woowahan.myticket.entity.PerformType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,7 +13,7 @@ public class AdminControllerTest {
     @Test
     public void 문자열을_enum으로_치환테스트() throws Exception {
         final String input = "sports";
-        TicketType type = TicketType.valueOf(input);
+        PerformType type = PerformType.valueOf(input);
 
         assertEquals(input, type.toString());
     }

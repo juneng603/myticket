@@ -14,9 +14,6 @@ public class User {
     @Column(name="id")
     public int id;
 
-    @Column(name="type")
-    public String type;
-
     @Column(name="name")
     public String name;
 

@@ -9,11 +9,13 @@ public class Response {
     private int code;
     private Object result;
 
+    public Response() {
+        ok();
+    }
+
     public void ok() {
         status = "OK";
         code = 500;
-        error = null;
-        result = null;
     }
 
     public void setResult(Object result) {
